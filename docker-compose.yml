@@ -1,0 +1,138 @@
+# version: '3'
+# services:
+#   # db:
+#   #   container_name: postgres_db
+#   #   image: postgres:15
+#   #   restart: always
+#   #   environment:
+#   #     POSTGRES_USER: myuser
+#   #     POSTGRES_PASSWORD: mypassword
+#   #     POSTGRES_DB: mydb
+#   #   volumes:
+#   #     - ./pg_volume:/var/lib/postgresql/data
+#   #   ports:
+#   #     - "5431:5431"
+#   #   networks:
+#   #     - my_network
+#   db:
+#     container_name: postgres_db
+#     image: postgres:15
+#     ports:
+#       - "5432:5432"  # Corrected port mapping
+#     volumes:
+#       - ./pg_volume:/var/lib/postgresql/data
+#     restart: always
+#     environment:
+#       POSTGRES_PASSWORD: 123
+#     networks:
+#       my_network:
+#         ipv4_address: 172.18.0.2
+
+#   pgadmin:
+#     container_name: pgadmin_container
+#     image: dpage/pgadmin4
+#     restart: always
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.org
+#       PGADMIN_DEFAULT_PASSWORD: pgadminpassword
+#     volumes:
+#       - pgadmin-data:/var/lib/pgadmin
+#     ports:
+#       - "8080:80"
+#     networks:
+#       - my_network:
+#         ipv4_address: 172.18.0.4
+
+#   rabbitmq:
+#     image: rabbitmq:management
+#     environment:
+#       RABBITMQ_DEFAULT_USER: user
+#       RABBITMQ_DEFAULT_PASS: password
+#       RABBITMQ_DEFAULT_VHOST: myrabbitvhost
+#     volumes:
+#       - rabbitmq-data:/var/lib/rabbitmq
+#     ports:
+#       - "5672:5672"  # AMQP
+#       - "15672:15672"  # Management UI
+#     networks:
+#       - my_network
+
+# volumes:
+#   pg_volume:
+#   pgadmin-data:
+#   rabbitmq-data:
+
+# networks:
+#   my_network:
+#     driver: bridge
+#     name: my_network
+#     external: true
+
+
+
+# # Usage:
+# # docker-compose --profile postgres up -d  # Start PostgreSQL and pgAdmin
+# # docker-compose --profile rabbitmq up -d  # Start RabbitMQ
+
+
+# # Access:
+# # PostgreSQL: localhost:5432
+# # pgAdmin: localhost:8080
+# # RabbitMQ Management UI: localhost:15672
+
+services:
+  db:
+    container_name: postgres_db
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    volumes:
+      - pg_volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.3
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: pgadminpassword
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "8080:80"
+    networks:
+      my_network:
+        ipv4_address: 172.18.0.4
+
+  rabbitmq:
+    image: rabbitmq:management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER:
+      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_VHOST: myrabbitvhost
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"  # AMQP
+      - "15672:15672"  # Management UI
+    networks:
+      - my_network
+
+volumes:
+  pg_volume:
+  pgadmin-data:
+  rabbitmq-data:
+
+networks:
+  my_network:
+    driver: bridge
+    external: true
