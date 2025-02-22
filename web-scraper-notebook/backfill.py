@@ -11,7 +11,8 @@ postgres_port = os.getenv('POSTGRES_PORT', '5432')
 postgres_db = os.getenv('POSTGRES_DB', 'mydb')
 
 # Read CSV
-cleaned_trades_df = pd.read_csv("data-1738532533124.csv")
+cleaned_trades_df = pd.read_csv("cleaned_trades.csv")
+cleaned_trades_df.drop(axis=1, columns=['Unnamed: 0'], inplace=True)
 
 # Connect to PostgreSQL
 conn = psycopg2.connect(

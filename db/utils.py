@@ -36,7 +36,7 @@ class DatabaseConnector:
         cursor = self.conn.cursor()
         query = """
         SELECT * FROM capitol_trades
-        ORDER BY published_datetime DESC, id
+        ORDER BY published_datetime DESC, trade_id
         LIMIT 1;
         """
         cursor.execute(query)
