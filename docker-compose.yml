@@ -116,7 +116,7 @@ services:
     image: rabbitmq:management
     restart: always
     environment:
-      RABBITMQ_DEFAULT_USER:
+      RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
       RABBITMQ_DEFAULT_VHOST: myrabbitvhost
     volumes:

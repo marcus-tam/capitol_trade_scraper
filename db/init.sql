@@ -91,3 +91,50 @@ BEGIN
         trade_id = EXCLUDED.trade_id;
 END;
 $$ LANGUAGE plpgsql;
+
+-- New function that allows duplicate entries (no ON CONFLICT clause)
+CREATE OR REPLACE FUNCTION insert_capitol_trade(
+    p_politician VARCHAR(255),
+    p_party VARCHAR(255),
+    p_traded_company_name VARCHAR(255),
+    p_traded_company_ticker VARCHAR(50),
+    p_trade_filed_date DATE,
+    p_trade_owner VARCHAR(100),
+    p_trade_type VARCHAR(50),
+    p_trade_size VARCHAR(50),
+    p_stock_price DECIMAL(10,2),
+    p_published_datetime TIMESTAMP,
+    p_traded_datetime TIMESTAMP,
+    p_trade_id VARCHAR(1000)
+)
+RETURNS VOID AS $$
+BEGIN
+    INSERT INTO capitol_trades (
+        politician,
+        party,
+        traded_company_name,
+        traded_company_ticker,
+        trade_filed_date,
+        trade_owner,
+        trade_type,
+        trade_size,
+        stock_price,
+        published_datetime,
+        traded_datetime,
+        trade_id
+    ) VALUES (
+        p_politician,
+        p_party,
+        p_traded_company_name,
+        p_traded_company_ticker,
+        p_trade_filed_date,
+        p_trade_owner,
+        p_trade_type,
+        p_trade_size,
+        p_stock_price,
+        p_published_datetime,
+        p_traded_datetime,
+        p_trade_id
+    );
+END;
+$$ LANGUAGE plpgsql;
